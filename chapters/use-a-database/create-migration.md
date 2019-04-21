@@ -1,11 +1,12 @@
 ## 创建变更
 
-变更按时间记录着数据库结构的变化。它们使以下的操作成为可能：撤销(回滚)一部分修改，或创建一个新的数据库——与原有数据库结构一致。有了变更，你有一个完整的数据库历史，记录着对数据库的修改，例如添加或删除字段（以及整个表）。
+**变更按时间记录着数据库结构的变化。它们使以下的操作成为可能：撤销(回滚)一部分修改，或创建一个新的数据库——与原有数据库结构一致。有了变更，你有一个完整的数据库历史，记录着对数据库的修改，例如添加或删除字段（以及整个表）。**
 
 上一章节里，你在数据库上下文里添加了一个 Items 集合。既然现在数据库上下文里包括了一个集合（或者说表），而数据库里没有它，你就需要创建一个变更来修改数据库：
 
 ```
-dotnet ef migrations add AddItems
+dotnet ef migrations add AddItems 
+(在VS"程序包管理控制台"输入以下命令为相同效果:Add-Migration AddItems)
 ```
 
 这行代码通过检查你在数据库上下文里所做的修改，创建了一个新的变更，名为 `AddItems`。
@@ -76,9 +77,10 @@ protected override void Down(MigrationBuilder migrationBuilder)
 
 ```
 dotnet ef database update
+(在VS"程序包管理控制台"输入以下命令为相同效果:Update-Database)
 ```
 
-这条命令会导致 Entity Framework Core 在数据库中创建 `Items` 表。
+**这条命令会导致 Entity Framework Core 在数据库中创建 `Items` 表。(xiang:注意这句话执行完,才真的引起数据库变化了)**
 
 > 如果你想回滚数据库，你可以提供 *上一个* 迁移的名称：`dotnet ef database update CreateIdentitySchema` 这将运行所有迟于你指定变更的 `Down` 方法。  
 如果你需要完整的抹掉数据库并重新开始，运行 `dotnet ef database drop` 然后运行 `dotnet ef database update`，重新搭建数据库并应用到到当前的变更。
