@@ -76,6 +76,7 @@ services.AddScoped<ITodoItemService, TodoItemService>();
 
 `AddScoped` 会以  **scoped** 的生命周期把你的服务添加到容器里。**这意味着每次 web 请求中，一个 `TodoItemService` 类的新实例就会被创建出来。这对于那些跟数据库打交道的类来说，是必要的。**
 
+**请在跟 Entity Framework Core 打交道的服务上，始终采用 scoped 生命周期。**
 > 添加一个服务类去跟 Entity Framework Core（以及你的数据库）打交道，如果用单件（或其它）生命周期会引发麻烦，原因在于 Entity Framework Core 底层以请求为单位管数据库连接。要避免这些问题，请在跟 Entity Framework Core 打交道的服务上，始终采用 scoped 生命周期。
 
 依赖于被注入的 `ITodoItemService` 的 `TodoController` 将幸福地对这个变化毫无察觉，但在底层，你将使用 Entity Framework Core 与真实的数据库进行交互！
