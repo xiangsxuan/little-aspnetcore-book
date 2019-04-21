@@ -31,12 +31,12 @@ public ApplicationDbContext(
 {
 }
 
-public DbSet<TodoItem> Items { get; set; }
+public DbSet<TodoItem> Items { get; set; } //代表数据库内的一个表
 
 // ...
 ```
 
-`DbSet` 代表数据库里的 表 或者 集合。创建一个名为 `Items` 的 `DbSet<TodoItem>` 属性，可以让 Entity Framework Core 知道，你需要在一个名为 `Items` 的表里保存 `TodoItem` 实体。
+`DbSet` **代表数据库里的 表 或者 集合。创建一个名为 `Items` 的 `DbSet<TodoItem>` 属性，可以让 Entity Framework Core 知道，你需要在一个名为 `Items` 的表里保存 `TodoItem` 实体。**
 
 你修改了 数据库上下文 的类，却产生了一个小问题: 现在上下文和数据库不同步了，因为数据库里实际上并不存在 `Items` 这个表。(对数据库上下文代码的修改，并不会改变数据库本身。)
 
