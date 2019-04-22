@@ -14,7 +14,7 @@ NuGet 即是包管理工具，也是官方的软件包仓库（位于 https://ww
 
 你完全可以自己写一段代码，把一个日期转换成更人性化的字符串，不过幸运的是，还有个更便捷的方法。
 
-**NuGet 上的软件包Humanizer (https://www.nuget.org/packages/Humanizer) 解决了这种问题，它提供的方法可以“人性化(humanize)” 或者说 改写 几乎任何东西：日期、时间、时长、数字等等**。它是个很好很有用的开源项目，根据 MIT 许可证发布。
+**NuGet 上的软件包Humanizer (https://www.nuget.org/packages/Humanizer) 解决了这种问题，它提供的方法可以“人性化(humanize)” 或者说 改写 几乎任何东西：日期、时间、时长、数字等等,提高可读性**。它是个很好很有用的开源项目，根据 MIT 许可证发布。
 
 要把它加入到你的项目里，在终端窗口运行这个命令：
 
