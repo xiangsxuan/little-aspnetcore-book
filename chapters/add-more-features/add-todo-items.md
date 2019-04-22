@@ -54,6 +54,8 @@
 </div>
 ```
 
+注意以上代码分布视图引入方式:**@await Html.PartialAsync()**
+
 ### 添加 action
 
 当某个用户在你刚刚创建的表单里点击 Add，其浏览器会构建一个 POST 请求到你应用程序的 `/Todo/AddItem`。眼下这不会有效果，因为还没有任何 action 会处理 `/Todo/AddItem` 这个路由。如果你现在去尝试，ASP.NET Core 会返回一个 `404 Not Found` 错误。
@@ -81,9 +83,9 @@ public async Task<IActionResult> AddItem(TodoItem newItem)
 
 注意到 `AddItem` action 接受一个 `TodoItem` 参数的方式了吗？这是你在 _MVC basics_ 章节中创建的那个，用于存储一个 待办事项条目 相关信息的 `TodoItem` 模型。当它在这里作为一个 action 参数使用， ASP.NET Core 会自动执行一个称为 **模型绑定** 的处理流程。
 
-模型绑定流程会查看请求内的数据，并试图智能地把输入的字段和模型里的属性匹配起来。换句话说，当用户提交这个表单，并且浏览器 POST 到了此 action，ASP.NET Core 会从表单里提取信息，并存放到那个 `newItem` 变量里。
+**模型绑定流程会查看请求(用户POST)内的数据，并试图智能地把输入的字段和模型里的属性匹配起来。换句话说，当用户提交这个表单，并且浏览器 POST 到了此 action，ASP.NET Core 会从表单里提取信息，并存放到那个 `newItem` 变量里。**
 
-位于 action 前面的 `[ValidateAntiForgeryToken]` 属性告知 ASP.NET Core 去查找（并验证）那个隐藏的验证标记，就是由 `asp-action` tag helper 添加到表单里的那个标记。在处理 跨站请求伪造（CSRF） 的时候，这是个重要的安全措施，你的用户可能被欺骗，以至于在一个恶意的网站上提交数据。这里的验证标记被用于确保呈现和提交表单的，是你的程序。
+**位于 action 前面的 `[ValidateAntiForgeryToken]` 属性告知 ASP.NET Core 去查找（并验证）那个隐藏的验证标记，就是由 `asp-action` tag helper 添加到表单里的那个标记。在处理 跨站请求伪造（CSRF） 的时候，这是个重要的安全措施，你的用户可能被欺骗，以至于在一个恶意的网站上提交数据。这里的验证标记被用于确保呈现和提交表单的，是你的程序。**
 
 再检视一次 `AddItemPartial.cshtml` 视图。文件顶部的 `@model TodoItem` 那行告知 ASP.NET Core，该视图需要配合 `TodoItem` 模型一起使用。它促成了以下功能，在 `<input>` 标签上，应用 `asp-for="Title"`，让 ASP.NET Core 知晓该 input 元素是为 `Title` 字段服务的。
 
@@ -98,6 +100,7 @@ public async Task<IActionResult> AddItem(TodoItem newItem)
 `Title` 字段上的 `[Required]` 属性告知 ASP.NET Core 的模型核验器，如果标题缺失或为空，则判定其无效。看一下 action `AddItem` 的代码：首个代码块检查 `ModelState`（模型核验的结果）是否有效。习惯上，这种核验都在 action 最开始的地方进行。
 
 ```csharp
+//`Title` 字段上的 `[Required]` 属性告知 ASP.NET Core 的模型核验器，如果标题缺失或为空，则判定其无效
 if (!ModelState.IsValid)
 {
     return RedirectToAction("Index");
