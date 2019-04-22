@@ -10,7 +10,7 @@
 
 ### 向视图添加表单元素
 
-首先，修改视图，并用让每个复选框都被一个 `<form>` 元素包含。然后，添加一个隐藏元素，其中包含条目的 ID：
+首先，修改视图，并用**让每个复选框都被一个 `<form>` 元素包含[xiang:客户端向服务器端传数据, 大多通过form]**。然后，添加一个隐藏元素，其中包含条目的 ID：
 
 **Views/Todo/Index.cshtml**
 
@@ -18,7 +18,7 @@
 <td>
     <form asp-action="MarkDone" method="POST">
         <input type="checkbox" class="done-checkbox">
-        <input type="hidden" name="id" value="@item.Id">
+        <input type="hidden" name="id" value="@item.Id"> @//注意:隐藏元素,也可以用input标签
     </form>
 </td>
 ```
@@ -53,7 +53,7 @@ function markCompleted(checkbox) {
 }
 ```
 
-这段代码先使用 jQuery（一个 JavaScript 辅助库），通过 CSS 类 `done-checkbox` 找出页面上的所有复选框，将一些代码关联到其 `click` 事件。当一个复选框被点击，`markCompleted()` 函数就被执行。
+**这段代码先使用 jQuery（一个 JavaScript 辅助库），通过 CSS 类 `done-checkbox` 找出页面上的所有复选框，将一些代码关联到其 `click` 事件。当一个复选框被点击，`markCompleted()` 函数就被执行。**
 
 `markCompleted()` 函数的功能如下：
 
@@ -88,7 +88,7 @@ public async Task<IActionResult> MarkDone(Guid id)
 
 让我们逐行分析这个 action 方法。首先，该方法接受一个名为 `id` 的 `Guid` 类型参数。参数 `id` 非常简单，这跟 `AddItem` 不同，那个 action 用了一个模型作为参数，还进行了 模型绑定/核验 的处理。如果传入的请求中包括一个名为 `id` 的参数， ASP.NET Core 会尝试将其解析为一个 guid。这项功能得益于你在表单里加入的那个名为 `id` 的隐藏元素。
 
-既然你没使用 模型绑定流程，就没有用于有效性检查的 `ModelState`。取而代之，你可以直接检查 guid 的值，以判断它的有效性。如果出于某些原因，请求中的 `id` 参数缺失了，或者无法解析为一个 guid，则 `id` 的值将是 `GUID.Empty`。如果这种情况发生，action 就让浏览器重定向到 `/Todo/Index` 并刷新页面。
+**既然你没使用 模型绑定流程，就没有用于有效性检查的 `ModelState`。取而代之，你可以直接检查 guid 的值，以判断它的有效性。如果出于某些原因，请求中的 `id` 参数缺失了，或者无法解析为一个 guid，则 `id` 的值将是 `GUID.Empty`。**如果这种情况发生，action 就让浏览器重定向到 `/Todo/Index` 并刷新页面。
 
 接下来，控制器需要调用服务层去修改数据库。这个功能，将要由 `ITodoItemService` 接口中的一个新方法 `MarkDoneAsync` 来实现，它会根据操作成功与否，返回 true 或者 false：
 
@@ -142,7 +142,7 @@ public async Task<bool> MarkDoneAsync(Guid id)
 item.IsDone = true;
 ```
 
-修改该字段仅仅影响该条目的本地拷贝，`SaveChangesAsync()` 被调用之后才会把修改的内容持久化到数据库里。`SaveChangesAsync()` 返回一个整数，表示在这次保存操作中被更新的条目的数量。在当前的情况下，它要么是1(条目更新了)，要么是0(有错误发生)。
+修改该字段仅仅影响该条目的本地拷贝，`SaveChangesAsync()` 被调用之后才会把修改的内容持久化到数据库里。`SaveChangesAsync()` **返回一个整数，表示在这次保存操作中被更新的条目的数量。在当前的情况下，它要么是1(条目更新了)，要么是0(有错误发生)**。
 
 ### 试试看
 
