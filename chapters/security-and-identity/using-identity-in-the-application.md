@@ -58,7 +58,7 @@ var currentUser = await _userManager.GetUserAsync(User);
 
 如果当前用户已经登录， `User` 属性就持有一个轻量级的对象，包括了用户的一些（并非全部）信息。`UserManager` 使用它，通过 `GetUserAsync()` 方法在数据库里查找该用户的详细信息。
 
-因为控制器使用了 `[Authorize]` 属性，`currentUser` 的值绝不应该是 null。无论如何，做个明智的检查都没错，以防万一嘛。如果用户信息没找到，你可以用 `Challenge()` 方法强制用户再次登录：
+因为控制器使用了 `[Authorize]` 属性，`currentUser` 的值绝不应该是 null。**无论如何，做个明智的检查都没错，以防万一嘛。如果用户信息没找到，你可以用 `Challenge()` 方法强制用户再次登录：**
 
 ```csharp
 if (currentUser == null) return Challenge();
